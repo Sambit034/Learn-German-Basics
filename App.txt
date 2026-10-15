@@ -1,7 +1,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -29,8 +28,7 @@ namespace Learn_German_Basics
             LevelOverlay.Visibility = Visibility.Collapsed;
 
             MessageBox.Show(
-                "A1 course selected!\n\n" +
-                "Your German learning journey will begin here.",
+                "A1 course selected!\n\nThe Germany journey map will be added next.",
                 "Learn German Basics",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -49,33 +47,29 @@ namespace Learn_German_Basics
             };
 
             animation.KeyFrames.Add(
-                new EasingDoubleKeyFrame(-8,
-                    KeyTime.FromPercent(0.15)));
+                new EasingDoubleKeyFrame(-8, KeyTime.FromPercent(0.15)));
 
             animation.KeyFrames.Add(
-                new EasingDoubleKeyFrame(8,
-                    KeyTime.FromPercent(0.35)));
+                new EasingDoubleKeyFrame(8, KeyTime.FromPercent(0.35)));
 
             animation.KeyFrames.Add(
-                new EasingDoubleKeyFrame(-5,
-                    KeyTime.FromPercent(0.55)));
+                new EasingDoubleKeyFrame(-5, KeyTime.FromPercent(0.55)));
 
             animation.KeyFrames.Add(
-                new EasingDoubleKeyFrame(5,
-                    KeyTime.FromPercent(0.75)));
+                new EasingDoubleKeyFrame(5, KeyTime.FromPercent(0.75)));
 
             animation.KeyFrames.Add(
-                new EasingDoubleKeyFrame(0,
-                    KeyTime.FromPercent(1.0)));
+                new EasingDoubleKeyFrame(0, KeyTime.FromPercent(1.0)));
 
             transform.BeginAnimation(
-                TranslateTransform.XProperty, animation);
+                TranslateTransform.XProperty,
+                animation);
         }
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                "The test centre will be added in a later stage.",
+                "The test centre will be implemented in a later stage.",
                 "Test",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -84,7 +78,7 @@ namespace Learn_German_Basics
         private void Progress_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                "Your Germany journey map will be added in a later stage.",
+                "Your Germany journey map will be implemented in a later stage.",
                 "Progress",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
