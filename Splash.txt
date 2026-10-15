@@ -7,73 +7,60 @@
         WindowState="Maximized"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Topmost="True"
-        Background="#020D24"
-        AllowsTransparency="False"
+        Background="#020817"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Storyboard x:Key="IntroAnimation">
-
-            <!-- Greeting fades in -->
             <DoubleAnimation
                 Storyboard.TargetName="Greeting"
                 Storyboard.TargetProperty="Opacity"
-                From="0" To="1"
+                From="0"
+                To="1"
                 Duration="0:0:1.2"
                 BeginTime="0:0:0.2"/>
 
-            <!-- Greeting softly glows -->
-            <DoubleAnimation
-                Storyboard.TargetName="GreetingGlow"
-                Storyboard.TargetProperty="BlurRadius"
-                From="8" To="26"
-                Duration="0:0:1.4"
-                AutoReverse="True"
-                RepeatBehavior="Forever"
-                BeginTime="0:0:0.5"/>
-
-            <!-- Supporting text fades in -->
             <DoubleAnimation
                 Storyboard.TargetName="Subtitle"
                 Storyboard.TargetProperty="Opacity"
-                From="0" To="1"
+                From="0"
+                To="1"
                 Duration="0:0:0.9"
                 BeginTime="0:0:0.9"/>
 
-            <!-- Thin accent line appears -->
             <DoubleAnimation
                 Storyboard.TargetName="AccentLine"
                 Storyboard.TargetProperty="Opacity"
-                From="0" To="0.85"
-                Duration="0:0:1.0"
+                From="0"
+                To="1"
+                Duration="0:0:1"
                 BeginTime="0:0:1.2"/>
-
         </Storyboard>
 
         <Storyboard x:Key="OutroAnimation">
             <DoubleAnimation
                 Storyboard.TargetName="SplashContent"
                 Storyboard.TargetProperty="Opacity"
-                From="1" To="0"
+                From="1"
+                To="0"
                 Duration="0:0:0.65"/>
         </Storyboard>
     </Window.Resources>
 
     <Grid>
-        <!-- Deep navy background -->
         <Grid.Background>
-            <RadialGradientBrush GradientOrigin="0.5,0.45"
-                                 Center="0.5,0.45"
-                                 RadiusX="0.8"
-                                 RadiusY="0.9">
+            <RadialGradientBrush
+                GradientOrigin="0.5,0.45"
+                Center="0.5,0.45"
+                RadiusX="0.8"
+                RadiusY="0.9">
                 <GradientStop Color="#10244A" Offset="0"/>
                 <GradientStop Color="#061630" Offset="0.48"/>
                 <GradientStop Color="#020817" Offset="1"/>
             </RadialGradientBrush>
         </Grid.Background>
 
-        <!-- Very subtle blue ambient glow -->
+        <!-- Subtle background glow -->
         <Ellipse Width="680"
                  Height="400"
                  HorizontalAlignment="Center"
@@ -89,14 +76,11 @@
             <Ellipse.Opacity>0.12</Ellipse.Opacity>
         </Ellipse>
 
-        <Grid x:Name="SplashContent"
-              Opacity="1">
+        <Grid x:Name="SplashContent">
+            <StackPanel Width="900"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
 
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Width="900">
-
-                <!-- Main handwritten greeting -->
                 <TextBlock x:Name="Greeting"
                            Text="Hallo, User!"
                            FontFamily="Segoe Script"
@@ -109,15 +93,14 @@
                            Margin="0,0,0,28">
 
                     <TextBlock.Effect>
-                        <DropShadowEffect x:Name="GreetingGlow"
-                                           Color="#087CFF"
-                                           BlurRadius="18"
-                                           ShadowDepth="0"
-                                           Opacity="0.95"/>
+                        <DropShadowEffect
+                            Color="#087CFF"
+                            BlurRadius="24"
+                            ShadowDepth="0"
+                            Opacity="0.95"/>
                     </TextBlock.Effect>
                 </TextBlock>
 
-                <!-- German loading message -->
                 <TextBlock x:Name="Subtitle"
                            Text="Wir richten die Anwendung für dich ein ..."
                            FontFamily="Segoe UI"
@@ -128,7 +111,6 @@
                            Opacity="0"
                            Margin="20,0,20,30"/>
 
-                <!-- Decorative glowing accent, not a fake progress bar -->
                 <Border x:Name="AccentLine"
                         Width="230"
                         Height="3"
@@ -143,11 +125,13 @@
                             <GradientStop Color="#003BFF" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
+
                     <Border.Effect>
-                        <DropShadowEffect Color="#078BFF"
-                                          BlurRadius="16"
-                                          ShadowDepth="0"
-                                          Opacity="0.9"/>
+                        <DropShadowEffect
+                            Color="#078BFF"
+                            BlurRadius="16"
+                            ShadowDepth="0"
+                            Opacity="0.9"/>
                     </Border.Effect>
                 </Border>
 
