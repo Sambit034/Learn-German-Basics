@@ -1,3 +1,4 @@
+
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
@@ -27,7 +28,15 @@ namespace Learn_German_Basics
         {
             if (Resources["OutroAnimation"] is Storyboard outro)
             {
-                outro.Completed += (_, _) => onCompleted();
+                EventHandler? completedHandler = null;
+
+                completedHandler = (sender, args) =>
+                {
+                    outro.Completed -= completedHandler;
+                    onCompleted();
+                };
+
+                outro.Completed += completedHandler;
                 outro.Begin(this);
             }
             else
