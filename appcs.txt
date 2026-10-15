@@ -1,0 +1,59 @@
+
+using System;
+using System.Windows;
+using System.Windows.Threading;
+
+namespace Learn_German_Basics
+{
+    public partial class App : Application
+    {
+        private SplashWindow? _splashWindow;
+        private DispatcherTimer? _splashTimer;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // Show the startup animation first.
+            _splashWindow = new SplashWindow();
+            _splashWindow.Show();
+
+            // Keep the intro visible long enough to enjoy it.
+            _splashTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(3200)
+            };
+
+            _splashTimer.Tick += SplashTimer_Tick;
+            _splashTimer.Start();
+        }
+
+        private void SplashTimer_Tick(object? sender, EventArgs e)
+        {
+            _splashTimer?.Stop();
+
+            if (_splashWindow == null)
+            {
+                OpenMainWindow();
+                return;
+            }
+
+            // Fade out the intro, then open the existing home screen.
+            _splashWindow.PlayOutro(() =>
+            {
+                _splashWindow.Close();
+                _splashWindow = null;
+
+                OpenMainWindow();
+            });
+        }
+
+        private void OpenMainWindow()
+        {
+            var mainWindow = new MainWindow();
+
+            MainWindow = mainWindow;
+            mainWindow.Show();
+        }
+    }
+}
