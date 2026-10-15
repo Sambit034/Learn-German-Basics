@@ -7,61 +7,56 @@ namespace Learn_German_Basics
 {
     public partial class App : Application
     {
-        private SplashWindow? _splashWindow;
-        private DispatcherTimer? _splashTimer;
+        private SplashWindow? splash;
+        private DispatcherTimer? timer;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            // Show the splash screen first.
-            _splashWindow = new SplashWindow();
-            _splashWindow.Show();
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            // Display the intro for approximately 3.2 seconds.
-            _splashTimer = new DispatcherTimer
+            splash = new SplashWindow();
+            splash.Show();
+
+            timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(3200)
+                Interval = TimeSpan.FromSeconds(3.2)
             };
 
-            _splashTimer.Tick += SplashTimer_Tick;
-            _splashTimer.Start();
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
-        private void SplashTimer_Tick(object? sender, EventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
-            _splashTimer?.Stop();
-            _splashTimer = null;
+            timer?.Stop();
+            timer = null;
 
-            if (_splashWindow == null)
+            try
             {
-                OpenHomeWindow();
-                return;
+                var home = new MainWindow();
+
+                // Register and show the home screen first.
+                MainWindow = home;
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
+                home.Show();
+                home.Activate();
+
+                // Close the splash only after home is visible.
+                splash?.Close();
+                splash = null;
             }
-
-            _splashWindow.PlayOutro(OpenHomeWindow);
-        }
-
-        private void OpenHomeWindow()
-        {
-            // Prevent opening the home window more than once.
-            if (MainWindow is not null &&
-                MainWindow is not SplashWindow)
+            catch (Exception ex)
             {
-                return;
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Unable to open the welcome screen",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
-
-            var homeWindow = new MainWindow();
-
-            // Register and display the real main window.
-            MainWindow = homeWindow;
-            ShutdownMode = ShutdownMode.OnMainWindowClose;
-
-            homeWindow.Show();
-
-            // Close the splash only after the home is visible.
-            _splashWindow?.Close();
-            _splashWindow = null;
         }
     }
 }
