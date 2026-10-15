@@ -466,4 +466,31 @@
                                                FontWeight="Bold"
                                                HorizontalAlignment="Center"/>
 
-                              
+                                    <TextBlock Text="ELEMENTARY"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               Margin="0,5,0,0"/>
+
+                                    <TextBlock x:Name="A2Message"
+                                               Text="🔒 LOCKED"
+                                               FontSize="14"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               Margin="0,15,0,0"/>
+
+                                    <TextBlock Text="Take test to enter"
+                                               FontSize="12"
+                                               Foreground="#A52B2B"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               Margin="0,12,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
