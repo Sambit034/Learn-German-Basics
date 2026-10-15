@@ -14,11 +14,11 @@ namespace Learn_German_Basics
         {
             base.OnStartup(e);
 
-            // Show the startup animation first.
+            // Show the splash screen first.
             _splashWindow = new SplashWindow();
             _splashWindow.Show();
 
-            // Keep the intro visible long enough to enjoy it.
+            // Display the intro for approximately 3.2 seconds.
             _splashTimer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(3200)
@@ -31,29 +31,37 @@ namespace Learn_German_Basics
         private void SplashTimer_Tick(object? sender, EventArgs e)
         {
             _splashTimer?.Stop();
+            _splashTimer = null;
 
             if (_splashWindow == null)
             {
-                OpenMainWindow();
+                OpenHomeWindow();
                 return;
             }
 
-            // Fade out the intro, then open the existing home screen.
-            _splashWindow.PlayOutro(() =>
-            {
-                _splashWindow.Close();
-                _splashWindow = null;
-
-                OpenMainWindow();
-            });
+            _splashWindow.PlayOutro(OpenHomeWindow);
         }
 
-        private void OpenMainWindow()
+        private void OpenHomeWindow()
         {
-            var mainWindow = new MainWindow();
+            // Prevent opening the home window more than once.
+            if (MainWindow is not null &&
+                MainWindow is not SplashWindow)
+            {
+                return;
+            }
 
-            MainWindow = mainWindow;
-            mainWindow.Show();
+            var homeWindow = new MainWindow();
+
+            // Register and display the real main window.
+            MainWindow = homeWindow;
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            homeWindow.Show();
+
+            // Close the splash only after the home is visible.
+            _splashWindow?.Close();
+            _splashWindow = null;
         }
     }
 }
