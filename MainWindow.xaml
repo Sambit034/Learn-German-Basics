@@ -102,6 +102,58 @@
             </Setter>
         </Style>
 
+
+        <Style x:Key="SmallActionButton" TargetType="Button">
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="Background" Value="#A92323"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DialogActionButton" TargetType="Button">
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#A92323"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="9"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
@@ -207,9 +259,9 @@
             </Grid>
         </Border>
 
-        <!-- ================= WELCOME SCREEN ================= -->
+        <!-- ================= MAIN CONTENT AREA ================= -->
 
-        <Grid Grid.Column="1"
+        <Grid x:Name="MainContent" Grid.Column="1"
               ClipToBounds="True">
 
             <Grid.Background>
@@ -489,6 +541,203 @@
                         </Grid>
                     </Grid>
                 </Border>
+
+            <!-- ================= TEST SECTION ================= -->
+            <Grid x:Name="TestSection"
+                  Visibility="Collapsed"
+                  Background="#F5EBDD"
+                  Panel.ZIndex="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0"
+                        Background="#FFF9F0"
+                        Padding="28,22"
+                        BorderBrush="#E8DDD0"
+                        BorderThickness="0,0,0,1">
+                    <StackPanel>
+                        <TextBlock Text="Test Centre"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Foreground="#17212D"/>
+                        <TextBlock Text="Prepare for your A2 entry assessment."
+                                   FontSize="15"
+                                   Foreground="#59616B"
+                                   Margin="0,6,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Row="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="30">
+                    <TextBlock Text="A2 Entry Assessment"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Foreground="#17212D"
+                               TextAlignment="Center"/>
+                    <TextBlock Text="Your assessment preparation will begin here."
+                               FontSize="16"
+                               Foreground="#59616B"
+                               TextAlignment="Center"
+                               Margin="0,12,0,22"/>
+                    <Button Content="Start assessment"
+                            Style="{StaticResource DialogActionButton}"
+                            HorizontalAlignment="Center"
+                            Click="OpenAssessmentStart_Click"/>
+                    <Button Content="Back to welcome screen"
+                            Background="Transparent"
+                            Foreground="#A92323"
+                            BorderThickness="0"
+                            Padding="12,10"
+                            Margin="0,8,0,0"
+                            Cursor="Hand"
+                            Click="BackToWelcome_Click"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- ================= A2 ASSESSMENT CONFIRMATION ================= -->
+            <Grid x:Name="A2ConfirmOverlay"
+                  Visibility="Collapsed"
+                  Panel.ZIndex="20">
+                <Border Background="#990E1722"/>
+                <Border Width="430"
+                        MaxWidth="400"
+                        Background="#FFF9F0"
+                        BorderBrush="#FFFFFF"
+                        BorderThickness="2"
+                        CornerRadius="20"
+                        Padding="28"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="A2 Assessment"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Foreground="#17212D"
+                                   TextAlignment="Center"/>
+                        <TextBlock Text="Take an A2 entry assessment now?"
+                                   FontSize="16"
+                                   Foreground="#46515B"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Margin="0,16,0,24"/>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="No"
+                                    Style="{StaticResource DialogActionButton}"
+                                    Background="#68717C"
+                                    Margin="0,0,10,0"
+                                    Click="A2ConfirmNo_Click"/>
+                            <Button Content="Yes"
+                                    Style="{StaticResource DialogActionButton}"
+                                    Click="A2ConfirmYes_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- ================= ASSESSMENT START CONFIRMATION ================= -->
+            <Grid x:Name="AssessmentStartOverlay"
+                  Visibility="Collapsed"
+                  Panel.ZIndex="21">
+                <Border Background="#990E1722"/>
+                <Border Width="440"
+                        MaxWidth="400"
+                        Background="#FFF9F0"
+                        BorderBrush="#FFFFFF"
+                        BorderThickness="2"
+                        CornerRadius="20"
+                        Padding="28"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Assessment Start?"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Foreground="#17212D"
+                                   TextAlignment="Center"/>
+                        <TextBlock Text="The A2 assessment will begin after a 30-second preparation countdown."
+                                   FontSize="15"
+                                   Foreground="#46515B"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Margin="0,16,0,24"/>
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="No"
+                                    Style="{StaticResource DialogActionButton}"
+                                    Background="#68717C"
+                                    Margin="0,0,10,0"
+                                    Click="AssessmentStartNo_Click"/>
+                            <Button Content="Yes, start"
+                                    Style="{StaticResource DialogActionButton}"
+                                    Click="AssessmentStartYes_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- ================= 30-SECOND PREPARATION WINDOW ================= -->
+            <Grid x:Name="AssessmentPrepOverlay"
+                  Visibility="Collapsed"
+                  Panel.ZIndex="22">
+                <Border Background="#D9081728"/>
+                <Border Width="520"
+                        MaxWidth="480"
+                        Background="#07162E"
+                        BorderBrush="#315783"
+                        BorderThickness="1"
+                        CornerRadius="22"
+                        Padding="32"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="A2 ASSESSMENT"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Foreground="#8DBFFF"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="The test will start in 30 seconds."
+                                   FontSize="23"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"/>
+                        <TextBlock x:Name="CountdownText"
+                                   Text="00:30"
+                                   FontSize="54"
+                                   FontWeight="Bold"
+                                   Foreground="#65B7FF"
+                                   TextAlignment="Center"
+                                   Margin="0,18,0,18"/>
+                        <ProgressBar x:Name="CountdownProgress"
+                                     Minimum="0"
+                                     Maximum="30"
+                                     Value="30"
+                                     Height="6"
+                                     Foreground="#168BFF"
+                                     Background="#263A57"
+                                     BorderThickness="0"/>
+                        <TextBlock Text="Please get ready before the assessment begins."
+                                   FontSize="14"
+                                   Foreground="#D5E3F8"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Margin="0,18,0,24"/>
+                        <Button Content="Leave assessment"
+                                Style="{StaticResource DialogActionButton}"
+                                Background="#263A57"
+                                BorderBrush="#7691B5"
+                                BorderThickness="1"
+                                HorizontalAlignment="Stretch"
+                                Click="LeaveAssessment_Click"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
             </Grid>
         </Grid>
     </Grid>
