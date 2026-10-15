@@ -1,0 +1,39 @@
+using System;
+using System.Windows;
+using System.Windows.Media.Animation;
+
+namespace Learn_German_Basics
+{
+    public partial class SplashWindow : Window
+    {
+        public SplashWindow()
+        {
+            InitializeComponent();
+
+            Loaded += SplashWindow_Loaded;
+        }
+
+        private void SplashWindow_Loaded(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (Resources["IntroAnimation"] is Storyboard intro)
+            {
+                intro.Begin(this);
+            }
+        }
+
+        public void PlayOutro(Action onCompleted)
+        {
+            if (Resources["OutroAnimation"] is Storyboard outro)
+            {
+                outro.Completed += (_, _) => onCompleted();
+                outro.Begin(this);
+            }
+            else
+            {
+                onCompleted();
+            }
+        }
+    }
+}
