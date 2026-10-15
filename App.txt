@@ -1,0 +1,98 @@
+
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+
+namespace Learn_German_Basics
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            LevelOverlay.Visibility = Visibility.Visible;
+        }
+
+        private void CloseLevelOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            LevelOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void A1_Click(object sender, RoutedEventArgs e)
+        {
+            LevelOverlay.Visibility = Visibility.Collapsed;
+
+            MessageBox.Show(
+                "A1 course selected!\n\n" +
+                "Your German learning journey will begin here.",
+                "Learn German Basics",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void A2_Click(object sender, RoutedEventArgs e)
+        {
+            A2Message.Text = "Take test to enter";
+
+            var transform = new TranslateTransform();
+            A2Button.RenderTransform = transform;
+
+            var animation = new DoubleAnimationUsingKeyFrames
+            {
+                Duration = TimeSpan.FromMilliseconds(350)
+            };
+
+            animation.KeyFrames.Add(
+                new EasingDoubleKeyFrame(-8,
+                    KeyTime.FromPercent(0.15)));
+
+            animation.KeyFrames.Add(
+                new EasingDoubleKeyFrame(8,
+                    KeyTime.FromPercent(0.35)));
+
+            animation.KeyFrames.Add(
+                new EasingDoubleKeyFrame(-5,
+                    KeyTime.FromPercent(0.55)));
+
+            animation.KeyFrames.Add(
+                new EasingDoubleKeyFrame(5,
+                    KeyTime.FromPercent(0.75)));
+
+            animation.KeyFrames.Add(
+                new EasingDoubleKeyFrame(0,
+                    KeyTime.FromPercent(1.0)));
+
+            transform.BeginAnimation(
+                TranslateTransform.XProperty, animation);
+        }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "The test centre will be added in a later stage.",
+                "Test",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void Progress_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "Your Germany journey map will be added in a later stage.",
+                "Progress",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+    }
+}
